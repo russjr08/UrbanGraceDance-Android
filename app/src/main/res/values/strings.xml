@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Urban Grace Dance</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_logout">Logout</string>
+
+    <string name="activity_login_name">Login to Urban Grace Dance</string>
+
+    <string name="login_welcome_text">Welcome to the Urban Grace Dance Android app.\n To get things started, please login!</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_open">Open Navigation</string>
+    <string name="navigation_close">Close Navigation</string>
+</resources>

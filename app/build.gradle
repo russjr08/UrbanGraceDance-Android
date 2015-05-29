@@ -27,6 +27,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:+'
     compile 'com.android.support:cardview-v7:+'
     compile 'com.nispok:snackbar:2.10.+'
+    compile 'com.android.support:design:22.2.0'
 
     // Utility libraries
     compile 'com.jakewharton:butterknife:6.1.0'

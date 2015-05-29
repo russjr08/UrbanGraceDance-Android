@@ -3,17 +3,15 @@ package com.urbangracedance.app.android.urbangracedance;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
-import com.urbangracedance.app.android.urbangracedance.adapters.NavigationAdapter;
+import android.widget.TextView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -21,8 +19,8 @@ import butterknife.InjectView;
 
 public class MainActivity extends ActionBarActivity {
 
-    @InjectView(R.id.navList) RecyclerView navDrawerList;
     @InjectView(R.id.mainDrawerLayout) DrawerLayout drawerLayout;
+    @InjectView(R.id.nav_view) NavigationView navigationView;
 
     @InjectView(R.id.toolbar) Toolbar toolbar;
 
@@ -31,34 +29,59 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         ButterKnife.inject(this);
 
         setSupportActionBar(toolbar);
 
-        navDrawerList.setLayoutManager(new LinearLayoutManager(this));
-        navDrawerList.setAdapter(new NavigationAdapter());
 
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_open, R.string.navigation_close) {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                // code here will execute once the drawer is opened( As I dont want anything happened whe drawer is
-                // open I am not going to put anything here)
+
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
-                // Code here will execute once drawer is closed
+
             }
         };
+
         drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
 
+        setupNavigationDrawer();
+
+    }
+
+    public void setupNavigationDrawer() {
+        TextView name, emailAddress, adminText;
+        name = (TextView) navigationView.findViewById(R.id.name);
+        emailAddress = (TextView) navigationView.findViewById(R.id.email);
+        adminText = (TextView) navigationView.findViewById(R.id.adminStatus);
+
+        name.setText(Container.getInstance().user.first_name + " " + Container.getInstance().user.last_name);
+        emailAddress.setText(Container.getInstance().user.email_address);
+        if(Container.getInstance().user.isAdmin) {
+            adminText.setText("Administrator");
+        } else {
+            adminText.setVisibility(View.GONE);
+        }
 
 
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+
+                drawerLayout.closeDrawers();
+                return true;
+            }
+        });
     }
 
 

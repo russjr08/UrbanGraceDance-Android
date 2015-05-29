@@ -7,6 +7,7 @@
         android:id="@+id/toolbar"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:paddingTop="25dp"
         android:minHeight="?attr/actionBarSize"
         android:fitsSystemWindows="true"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -34,14 +35,17 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="text"
             android:gravity="center"
             android:id="@+id/UsernameField"
+            android:imeOptions="actionNext"
             android:hint="Username" />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:id="@+id/PasswordField"
+            android:imeOptions="actionDone"
             android:inputType="textPassword"
             android:hint="Password" />
         <Button

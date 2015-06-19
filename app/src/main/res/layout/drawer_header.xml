@@ -19,7 +19,7 @@
             android:layout_marginTop="55dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:fitsSystemWindows="true"
             android:layout_marginLeft="16dp"
             android:textColor="#ffffff" />
@@ -31,8 +31,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:fitsSystemWindows="true"
-            android:textSize="14sp"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         <TextView
             android:id="@+id/adminStatus"

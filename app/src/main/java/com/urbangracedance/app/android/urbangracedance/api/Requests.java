@@ -22,7 +22,7 @@ import retrofit.RestAdapter;
  */
 public class Requests {
 
-    private final String DEFAULT_API_BASE = "http://192.168.1.72:3000/api/v1/";
+    private final String DEFAULT_API_BASE = "http://192.168.1.99:3000/api/v1/";
     private final String HTTP_PREFIX = "http://";
 
     private String token;

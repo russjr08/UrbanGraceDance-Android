@@ -36,6 +36,17 @@ public class MainActivity extends ActionBarActivity {
 
         setSupportActionBar(toolbar);
 
+        if(findViewById(R.id.mainFragmentContainer) != null) {
+            if(savedInstanceState != null) {
+                return;
+            }
+
+            StudentActivityFragment mainFragment = new StudentActivityFragment();
+
+            getSupportFragmentManager().beginTransaction().add(R.id.mainFragmentContainer, mainFragment).commit();
+
+        }
+
 
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_open, R.string.navigation_close) {
             @Override

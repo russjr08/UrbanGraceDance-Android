@@ -38,7 +38,7 @@ public class StudentActivityFragment extends Fragment {
 
         studentsList.addItemDecoration(new DividerItemDecoration(getActivity().getBaseContext(), DividerItemDecoration.VERTICAL_LIST));
         studentsList.setLayoutManager(new LinearLayoutManager(this.getActivity().getBaseContext()));
-        studentsList.setAdapter(new StudentAdapter());
+        studentsList.setAdapter(new StudentAdapter(this));
 
         return v;
     }

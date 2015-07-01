@@ -5,8 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
     @InjectView(R.id.mainDrawerLayout) DrawerLayout drawerLayout;
     @InjectView(R.id.nav_view) NavigationView navigationView;
@@ -37,13 +37,10 @@ public class MainActivity extends ActionBarActivity {
         setSupportActionBar(toolbar);
 
         if(findViewById(R.id.mainFragmentContainer) != null) {
-            if(savedInstanceState != null) {
-                return;
-            }
 
             StudentActivityFragment mainFragment = new StudentActivityFragment();
 
-            getSupportFragmentManager().beginTransaction().add(R.id.mainFragmentContainer, mainFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.mainFragmentContainer, mainFragment).commit();
 
         }
 
@@ -88,6 +85,12 @@ public class MainActivity extends ActionBarActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
+
+                if(menuItem.getItemId() == R.id.studentMenuItem) {
+                    StudentActivityFragment mainFragment = new StudentActivityFragment();
+
+                    getSupportFragmentManager().beginTransaction().replace(R.id.mainFragmentContainer, mainFragment).commit();
+                }
 
                 drawerLayout.closeDrawers();
                 return true;

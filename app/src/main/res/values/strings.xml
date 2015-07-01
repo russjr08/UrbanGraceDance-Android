@@ -13,5 +13,12 @@
     <string name="navigation_open">Open Navigation</string>
     <string name="navigation_close">Close Navigation</string>
 
-    <string name="classes_enrolled_in">Enrolled into...</string>
+    <string name="classes_enrolled_in">Enrolled in…</string>
+
+    <!-- Student Registration -->
+    <string name="student_create_title">Register a Student</string>
+    <string name="student_create_name">First Name</string>
+    <string name="student_create_lastname">Last Name</string>
+    <string name="student_create_year">Birth Year</string>
+    <string name="student_create_positive">Register!</string>
 </resources>

@@ -9,6 +9,11 @@
               android:icon="@drawable/ic_person_black_24dp"
               android:title="Students" />
 
+        <item android:id="@+id/scheduleMenuItem"
+              android:checked="false"
+              android:icon="@drawable/ic_event_black_24dp"
+              android:title="Schedule" />
+
     </group>
 
 

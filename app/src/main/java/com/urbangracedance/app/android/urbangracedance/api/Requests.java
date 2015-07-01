@@ -3,6 +3,7 @@ package com.urbangracedance.app.android.urbangracedance.api;
 import com.google.gson.Gson;
 import com.urbangracedance.app.android.urbangracedance.api.interfaces.DanceService;
 import com.urbangracedance.app.android.urbangracedance.api.models.Login;
+import com.urbangracedance.app.android.urbangracedance.api.models.Student;
 import com.urbangracedance.app.android.urbangracedance.api.models.User;
 
 import java.io.BufferedReader;
@@ -122,7 +123,11 @@ public class Requests {
         service.getSelf(callback);
     }
 
-    public RequestInterceptor createRequestInterceptor() {
+    public void createStudent(Student student, Callback<User> callback) {
+        service.createStudent(student, callback);
+    }
+
+    private RequestInterceptor createRequestInterceptor() {
         RequestInterceptor interceptor = new RequestInterceptor() {
             @Override
             public void intercept(RequestFacade request) {

@@ -1,18 +1,15 @@
 package com.urbangracedance.app.android.urbangracedance;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.Toast;
 
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
@@ -21,7 +18,6 @@ import com.urbangracedance.app.android.urbangracedance.api.models.User;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -31,10 +27,10 @@ public class LoginActivity extends ActionBarActivity {
 
     @InjectView(R.id.toolbar) Toolbar toolbar;
 
-    @InjectView(R.id.UsernameField) EditText usernameField;
-    @InjectView(R.id.PasswordField) EditText passwordField;
-
-    @InjectView(R.id.LoginBtn) Button loginBtn;
+//    @InjectView(R.id.UsernameField) EditText usernameField;
+//    @InjectView(R.id.PasswordField) EditText passwordField;
+//
+//    @InjectView(R.id.LoginBtn) Button loginBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,16 +44,44 @@ public class LoginActivity extends ActionBarActivity {
         setTitle(R.string.activity_login_name);
 
         // Remove this later:
-        StrictMode.ThreadPolicy policy = new StrictMode.
-                ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+//        StrictMode.ThreadPolicy policy = new StrictMode.
+//                ThreadPolicy.Builder().permitAll().build();
+//        StrictMode.setThreadPolicy(policy);
+
+        if(getIntent() != null && getIntent().getData() != null) {
+            if(getIntent().getData().toString().startsWith("ugd://authorize")) {
+
+                String token = getIntent().getData().toString().replace("ugd://authorize/", "");
+                System.out.println(token);
+
+                Container.getInstance().requester = new Requests(token);
+
+
+                Container.getInstance().requester.getSelf(new Callback<User>() {
+                    @Override
+                    public void success(User user, Response response) {
+                        Container.getInstance().user = user;
+                        finishLoginAndPersist();
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        SnackbarManager.show(
+                                Snackbar.with(LoginActivity.this)
+                                        .textColor(Color.RED)
+                                        .text("Something went wrong...!"));
+
+                    }
+                });
+
+            }
+        }
+
 
         SharedPreferences prefs = getSharedPreferences("auth", MODE_PRIVATE);
-        final String oldText = loginBtn.getText().toString();
+
 
         if(prefs.getString("access-token", null)  != null) {
-            loginBtn.setEnabled(false);
-            loginBtn.setText("Please wait. Restoring session...");
             Container.getInstance().requester = new Requests(prefs.getString("access-token", null));
             Container.getInstance().requester.getSelf(new Callback<User>() {
                 @Override
@@ -73,8 +97,6 @@ public class LoginActivity extends ActionBarActivity {
 
                 @Override
                 public void failure(RetrofitError error) {
-                    loginBtn.setEnabled(true);
-                    loginBtn.setText(oldText);
                     SnackbarManager.show(
                             Snackbar.with(LoginActivity.this)
                                     .textColor(Color.RED)
@@ -82,10 +104,24 @@ public class LoginActivity extends ActionBarActivity {
                 }
             });
 
+        } else {
+
+            initBrowser();
+
         }
 
 
+
+
     }
+
+    public void initBrowser() {
+        Toast.makeText(this, "Please login through your browser, you'll be redirected back here afterwards.", Toast.LENGTH_LONG).show();
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://192.168.1.99:3000/auth/authorize"));
+        startActivity(browserIntent);
+    }
+
+
 
     public void finishLoginAndPersist() {
         SnackbarManager.show(
@@ -130,43 +166,4 @@ public class LoginActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @OnClick(R.id.LoginBtn)
-    public void login() {
-
-        Container.getInstance().requester = new Requests();
-
-        InputMethodManager imm = (InputMethodManager)getSystemService(
-                Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(passwordField.getWindowToken(), 0);
-
-        try {
-            Container.getInstance().requester.login(usernameField.getText().toString(),
-                    passwordField.getText().toString());
-
-            Container.getInstance().requester.getSelf(new Callback<User>() {
-                @Override
-                public void success(User user, Response response) {
-                    Container.getInstance().user = user;
-                    finishLoginAndPersist();
-                }
-
-                @Override
-                public void failure(RetrofitError error) {
-                    SnackbarManager.show(
-                            Snackbar.with(LoginActivity.this)
-                                    .textColor(Color.RED)
-                                    .text("Something went wrong...!"));
-
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-            SnackbarManager.show(
-                    Snackbar.with(LoginActivity.this)
-                            .textColor(Color.RED)
-                            .text("Failed to login!"));
-        }
-
-
-    }
 }

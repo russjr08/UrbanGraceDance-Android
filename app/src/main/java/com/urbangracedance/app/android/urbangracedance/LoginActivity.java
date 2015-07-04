@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,14 +23,10 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 
-public class LoginActivity extends ActionBarActivity {
+public class LoginActivity extends AppCompatActivity {
 
     @InjectView(R.id.toolbar) Toolbar toolbar;
 
-//    @InjectView(R.id.UsernameField) EditText usernameField;
-//    @InjectView(R.id.PasswordField) EditText passwordField;
-//
-//    @InjectView(R.id.LoginBtn) Button loginBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +39,6 @@ public class LoginActivity extends ActionBarActivity {
 
         setTitle(R.string.activity_login_name);
 
-        // Remove this later:
-//        StrictMode.ThreadPolicy policy = new StrictMode.
-//                ThreadPolicy.Builder().permitAll().build();
-//        StrictMode.setThreadPolicy(policy);
 
         if(getIntent() != null && getIntent().getData() != null) {
             if(getIntent().getData().toString().startsWith("ugd://authorize")) {

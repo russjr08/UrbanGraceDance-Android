@@ -109,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void initBrowser() {
         Toast.makeText(this, "Please login through your browser, you'll be redirected back here afterwards.", Toast.LENGTH_LONG).show();
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://192.168.1.99:3000/auth/authorize"));
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Requests.DEFAULT_HOST + "/auth/authorize"));
         startActivity(browserIntent);
     }
 

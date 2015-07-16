@@ -23,7 +23,8 @@ import retrofit.RestAdapter;
  */
 public class Requests {
 
-    private final String DEFAULT_API_BASE = "http://192.168.1.99:3000/api/v1/";
+    public static final String DEFAULT_HOST = "http://backend.urbangracedance.com:3000";
+    public static final String DEFAULT_API_BASE = DEFAULT_HOST + "/api/v1/";
     private final String HTTP_PREFIX = "http://";
 
     private String token;

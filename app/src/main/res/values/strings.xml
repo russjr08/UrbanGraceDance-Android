@@ -4,6 +4,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="action_logout">Logout</string>
+    <string name="action_refresh">Refresh All Items</string>
 
     <string name="activity_login_name">Login to Urban Grace Dance</string>
 
@@ -15,10 +16,15 @@
 
     <string name="classes_enrolled_in">Enrolled in…</string>
 
+    <!-- Student Page -->
+
+    <string name="students_not_found">No Students found!</string>
+    <string name="students_not_found_extra">No problem though, you can register one by clicking the + button.</string>
+
     <!-- Student Registration -->
     <string name="student_create_title">Register a Student</string>
     <string name="student_create_name">First Name</string>
     <string name="student_create_lastname">Last Name</string>
-    <string name="student_create_year">Birth Year</string>
+    <string name="student_create_year">Birth Year (Ex: 2005)</string>
     <string name="student_create_positive">Register!</string>
 </resources>

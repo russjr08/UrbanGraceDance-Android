@@ -5,11 +5,11 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.nispok.snackbar.Snackbar;
@@ -18,6 +18,7 @@ import com.urbangracedance.app.android.urbangracedance.adapters.StudentAdapter;
 import com.urbangracedance.app.android.urbangracedance.api.models.Student;
 import com.urbangracedance.app.android.urbangracedance.api.models.User;
 import com.urbangracedance.app.android.urbangracedance.util.DividerItemDecoration;
+import com.urbangracedance.app.android.urbangracedance.util.EmptyRecyclerView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -31,8 +32,9 @@ import retrofit.client.Response;
  */
 public class StudentActivityFragment extends Fragment implements View.OnClickListener {
 
-    @InjectView(R.id.studentsList) RecyclerView studentsList;
+    @InjectView(R.id.studentsList) EmptyRecyclerView studentsList;
     @InjectView(R.id.btn_student_create) FloatingActionButton student_create_fab;
+    @InjectView(R.id.studentEmptyView) LinearLayout student_empty_view;
 
     private StudentAdapter adapter;
 
@@ -52,6 +54,7 @@ public class StudentActivityFragment extends Fragment implements View.OnClickLis
 
         adapter = new StudentAdapter(this);
 
+        studentsList.setEmptyView(student_empty_view);
         studentsList.addItemDecoration(new DividerItemDecoration(getActivity().getBaseContext(), DividerItemDecoration.VERTICAL_LIST));
         studentsList.setLayoutManager(new LinearLayoutManager(this.getActivity().getBaseContext()));
         studentsList.setAdapter(adapter);
@@ -59,6 +62,10 @@ public class StudentActivityFragment extends Fragment implements View.OnClickLis
         student_create_fab.setOnClickListener(this);
 
         return v;
+    }
+
+    public void notifyDataWasRefreshed() {
+        adapter.notifyDataSetChanged();
     }
 
     @Override

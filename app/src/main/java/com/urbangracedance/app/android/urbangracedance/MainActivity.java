@@ -13,8 +13,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
+import com.urbangracedance.app.android.urbangracedance.api.models.User;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -25,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     @InjectView(R.id.toolbar) Toolbar toolbar;
 
     ActionBarDrawerToggle toggle;
+
+    private StudentActivityFragment studentActivity = new StudentActivityFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(findViewById(R.id.mainFragmentContainer) != null) {
 
-            StudentActivityFragment mainFragment = new StudentActivityFragment();
-
-            getSupportFragmentManager().beginTransaction().replace(R.id.mainFragmentContainer, mainFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.mainFragmentContainer, studentActivity).commit();
 
         }
 
@@ -87,9 +94,8 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(MenuItem menuItem) {
 
                 if(menuItem.getItemId() == R.id.studentMenuItem) {
-                    StudentActivityFragment mainFragment = new StudentActivityFragment();
 
-                    getSupportFragmentManager().beginTransaction().replace(R.id.mainFragmentContainer, mainFragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.mainFragmentContainer, studentActivity).commit();
                 }
 
                 drawerLayout.closeDrawers();
@@ -123,6 +129,24 @@ public class MainActivity extends AppCompatActivity {
 
             startActivity(intent);
             finish();
+        } else if (id == R.id.action_refresh) {
+            Container.getInstance().requester.getSelf(new Callback<User>() {
+                @Override
+                public void success(User user, Response response) {
+                    Container.getInstance().user = user;
+                    studentActivity.notifyDataWasRefreshed();
+                    SnackbarManager.show(
+                            Snackbar.with(MainActivity.this)
+                                    .text("Account data refreshed successfully!"));
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    SnackbarManager.show(
+                            Snackbar.with(MainActivity.this)
+                                    .text("Failed to refresh Account Data! :("));
+                }
+            });
         }
 
         return super.onOptionsItemSelected(item);
